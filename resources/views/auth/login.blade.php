@@ -1,5 +1,5 @@
 @extends('partials.layout')
-@section('title', 'login')
+@section('title', 'Login')
 @section('content')
 
 
