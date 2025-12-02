@@ -20,17 +20,16 @@
         <fieldset class="fieldset">
             <legend class="fieldset-legend">@lang('Name')</legend>
             <input type="text" name="name" class="input w-full" value="{{ old('name', $user->name) }}"
-                placeholder="@lang('Name')" required autocomplete="name" />
+                placeholder="@lang('Name')" required autofocus autocomplete="name" />
             @error('name')
                 <p class="label">{{ $message }}</p>
             @enderror
         </fieldset>
-
         <div>
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">@lang('Email')</legend>
-                <input type="email" name="email" class="input w-full" value="{{ old('email', $user->email) }}" placeholder="@lang('Email')"
-                    required autocomplete="username" />
+                <input type="email" name="email" class="input w-full" value="{{ old('email', $user->email) }}"
+                    placeholder="@lang('Email')" required autocomplete="username" />
                 @error('email')
                     <p class="label">{{ $message }}</p>
                 @enderror
@@ -41,8 +40,7 @@
                     <p class="text-sm mt-2 text-base-content">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification"
-                            class="link">
+                        <button form="send-verification" class="link">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -61,7 +59,7 @@
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm test-base-content">{{ __('Saved.') }}</p>
+                    class="text-sm text-base-content">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
