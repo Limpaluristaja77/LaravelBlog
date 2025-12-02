@@ -5,16 +5,21 @@
     <div class="card-body">
         <h2 class="card-title">{{ $post->title }}</h2>
         @isset($full)
-        <p>{!! $post -> displayBody !!}</p>
+            <p>{!! $post->displayBody !!}</p>
         @else
-        <p>{{ $post->snippet }}</p>
+            <p>{{ $post->snippet }}</p>
         @endisset
         <p class="text-base-content/50">{{ $post->user->name }}</p>
         <p class="text-base-content/50">{{ $post->created_at->diffForHumans() }}</p>
         <p class="text-base-content/50"><b>Comments: </b>{{ $post->comments_count }}</p>
+        <div class="flex flex-row flex-wrap gap-1">
+            @foreach($post->tags as $tag)
+                <div class="badge badge-primary">{{ $tag->name }}</div>
+            @endforeach
+        </div>
         <div class="card-actions justify-end">
             @if (!isset($full))
-            <a href="/post/{{ $post->id }}" class="btn btn-primary">Read More</a>
+                <a href="/post/{{ $post->id }}" class="btn btn-primary">Read More</a>
             @endif
         </div>
     </div>
