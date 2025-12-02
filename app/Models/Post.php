@@ -42,37 +42,47 @@ class Post extends Model
 
     protected $fillable = ['title', 'body'];
 
-    public function snippet(): Attribute {
+    public function snippet(): Attribute
+    {
         return Attribute::get(function () {
             return explode("\n\n", $this->body)[0];
         });
     }
 
-    public function displayBody(): Attribute {
+    public function displayBody(): Attribute
+    {
         return Attribute::get(function () {
             return nl2br(htmlspecialchars($this->body));
         });
     }
 
-    public function authHasLiked(): Attribute {
+    public function authHasLiked(): Attribute
+    {
         return Attribute::get(function () {
-            return $this->likes()->where('user_id', Auth::user()->id)->exists();
+            return $this->likes()
+                ->where('user_id', Auth::id())
+                ->exists();
         });
     }
 
-    public function user() {
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function comments() {
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 
-    public function tags() {
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class);
     }
 
-    public function likes() {
+    public function likes()
+    {
         return $this->hasMany(Like::class);
     }
 }
