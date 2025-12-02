@@ -31,6 +31,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $post = new Post($request->validated());
+        $post->user()->associate(Auth::user());
         $post->save();
         return redirect()->route('posts.index');
     }

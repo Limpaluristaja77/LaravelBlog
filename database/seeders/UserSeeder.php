@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
         User::factory(10)->create();
 
         User::factory()->create([
-            'name' => env('DEFAULT_USER_NAME', 'User McUserface'),
-            'email' => env('DEFAULT_USER_EMAIL', 'user@user.user'),
+            'name' => env('DEFAULT_USER_NAME', 'Andri'),
+            'email' => env('DEFAULT_USER_EMAIL', 'email@email.email'),
             'password' => env('DEFAULT_USER_PASSWORD_HASH', bcrypt('password')),
         ]);
     }

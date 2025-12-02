@@ -24,15 +24,17 @@
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1 z-10">
             <li><a>Item 1</a></li>
-            <li>
-                <details>
-                    <summary>Admin</summary>
-                    <ul class="p-2">
-                        <li><a href="{{route('posts.index')}}">Posts</a></li>
-                        <li><a>Submenu 2</a></li>
-                    </ul>
-                </details>
-            </li>
+            @auth
+                <li>
+                    <details>
+                        <summary>Admin</summary>
+                        <ul class="p-2">
+                            <li><a href="{{route('posts.index')}}">Posts</a></li>
+                            <li><a>Submenu 2</a></li>
+                        </ul>
+                    </details>
+                </li>
+            @endauth
             <li><a>Item 3</a></li>
         </ul>
     </div>
@@ -54,7 +56,7 @@
                         </ul>
                     </details>
                 </li>
-        </ul>
+            </ul>
         @else
             <a href="{{ route('login') }}" class="btn btn-primary">@lang('Login')</a>
             <a href="{{ route('register') }}" class="btn btn-success">@lang('Register')</a>
