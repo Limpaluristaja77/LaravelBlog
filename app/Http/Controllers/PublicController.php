@@ -10,19 +10,22 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PublicController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $posts = Post::with('user')->withCount('comments', 'likes')->latest()->simplePaginate(16);
         return view('welcome', compact('posts'));
     }
 
-    public function post(Post $post) {
+    public function post(Post $post)
+    {
         $post->loadCount('comments', 'likes')->load('comments');
         return view('post', compact('post'));
     }
 
-    public function like(Post $post) {
+    public function like(Post $post)
+    {
         $like = $post->likes()->where('user_id', Auth::user()->id)->first();
-        if($like) {
+        if ($like) {
             $like->delete();
         } else {
             $like = new Like();
@@ -32,4 +35,19 @@ class PublicController extends Controller
         }
         return redirect()->back();
     }
+
+    public function comment(Request $request, Post $post)
+    {
+        $request->validate([
+            'body' => 'required|string|max:2000',
+        ]);
+
+        $post->comments()->create([
+            'body' => $request->body,
+            'user_id' => Auth::id(),
+        ]);
+
+        return back()->with('success', 'Comment added!');
+    }
+
 }
