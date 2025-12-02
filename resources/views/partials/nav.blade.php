@@ -22,13 +22,13 @@
         <a href="/" class="btn btn-ghost text-xl">daisyUI</a>
     </div>
     <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
+        <ul class="menu menu-horizontal px-1 z-10">
             <li><a>Item 1</a></li>
             <li>
                 <details>
-                    <summary>Parent</summary>
+                    <summary>Admin</summary>
                     <ul class="p-2">
-                        <li><a>Submenu 1</a></li>
+                        <li><a href="{{route('posts.index')}}">Posts</a></li>
                         <li><a>Submenu 2</a></li>
                     </ul>
                 </details>
@@ -37,7 +37,27 @@
         </ul>
     </div>
     <div class="navbar-end gap-2">
-        <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-        <a href="{{ route('register') }}" class="btn btn-success">Register</a>
+        @auth
+            <ul class="menu menu-horizontal px-1">
+
+                <li>
+                    <details>
+                        <summary>{{ auth()->user()->name }}</summary>
+                        <ul class="p-2">
+                            <li><a href="{{ route('profile.edit') }}">@lang('Profile')</a></li>
+                            <li>
+                                <form action="{{route('logout')}}" method="POST">
+                                    @csrf
+                                    <button>@lang('Logout')</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+        </ul>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-primary">@lang('Login')</a>
+            <a href="{{ route('register') }}" class="btn btn-success">@lang('Register')</a>
+        @endauth
     </div>
 </div>
