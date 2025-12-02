@@ -17,7 +17,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-
+    Route::get('/post/{post}/like', [PublicController::class, 'like'])->name('like');
     // Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
     // Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
     // Route::post('/admin/posts', [PostController::class, 'store'])->name('posts.store');
