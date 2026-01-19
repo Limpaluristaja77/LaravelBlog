@@ -9,7 +9,7 @@ Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
 
 Route::post('/post/{post}/comment', [PublicController::class, 'comment'])->name('comment.store');
-
+Route::get('/category/{category}', [PublicController::class, 'category'])->name('category');
 
 
 
