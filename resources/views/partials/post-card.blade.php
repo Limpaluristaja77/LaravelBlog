@@ -1,8 +1,16 @@
 <div class="card bg-base-300 shadow-sm">
-    @if ($post->image)
+    @if ($post->images->count() === 1)
         <figure>
-            <img src="{{ $post->image->url }}" alt="Post image" />
+            <img src="{{ $post->images->first()->url }}" alt="Shoes" />
         </figure>
+    @elseif($post->images->count() > 1)
+        <div class="carousel rounded-box ">
+            @foreach($post->images as $image)
+                <div class="carousel-item  w-full">
+                    <img src="{{$image->url}}"  />
+                </div>
+            @endforeach
+        </div>
     @endif
     <div class="card-body">
         <h2 class="card-title">{{ $post->title }}</h2>
@@ -16,9 +24,13 @@
         <p class="text-base-content/50"><b>Comments: </b>{{ $post->comments_count }}</p>
         <p class="text-base-content/50"><b>Likes: </b>{{ $post->likes_count }}</p>
         <p>
-            <a href="{{ route('category', ['category' => $post->category]) }}">
-                <div class="badge badge-secondary">{{ $post->category->name }}</div>
-            </a>
+            @if ($post->category)
+                <a href="{{ route('category', ['category' => $post->category]) }}">
+                    <div class="badge badge-secondary">{{ $post->category->name }}</div>
+                </a>
+            @else
+                <div class="badge badge-ghost">Uncategorized</div>
+            @endif
         </p>
         <div class="flex flex-row flex-wrap gap-1">
             @foreach ($post->tags as $tag)

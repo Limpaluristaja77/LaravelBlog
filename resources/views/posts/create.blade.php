@@ -34,11 +34,8 @@
                 </fieldset>
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Pick a file</legend>
-                    <input name="image" type="file" class="file-input w-full" />
+                    <input name="image[]" multiple type="file" class="file-input w-full" />
                     <label class="label">Max size 2MB</label>
-                    @error('image')
-                        <p class="label">{{ $message }}</p>
-                    @enderror
                 </fieldset>
                 <button class="btn btn-primary">Create</button>
             </form>

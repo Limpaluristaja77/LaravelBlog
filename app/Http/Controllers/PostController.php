@@ -32,16 +32,14 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-
-
         $post = new Post($request->validated());
         $post->user()->associate(Auth::user());
         $post->category()->associate($request->validated('category_id'));
         $post->save();
 
-        if ($request->hasFile('image')) {
+        foreach ($request->file('image', []) as $file) {
             $image = new Image();
-            $image->path = $request->file('image')->store('', ['disk' => 'public']);
+            $image->path = $file->store('', ['disk' => 'public']);
             $image->post()->associate($post);
             $image->save();
         }

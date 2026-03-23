@@ -17,7 +17,7 @@ class PublicController extends Controller
         $query = Auth::check() ? Auth::user()->feed : Post::query();
 
         $posts = $query
-            ->with(['user', 'category', 'tags', 'image'])
+            ->with(['user', 'category', 'tags', 'images'])
             ->withCount('comments', 'likes')
             ->latest()
             ->simplePaginate(16);
@@ -27,14 +27,14 @@ class PublicController extends Controller
 
     public function post(Post $post)
     {
-        $post->loadCount('comments', 'likes')->load('comments');
+        $post->loadCount('comments', 'likes')->load(['comments.user', 'images', 'category', 'tags', 'user']);
         return view('post', compact('post'));
     }
 
     public function like(Post $post)
     {
         $like = $post->likes()->where('user_id', Auth::user()->id)->first();
-        if ($like) {
+        if($like) {
             $like->delete();
         } else {
             $like = new Like();
@@ -56,39 +56,40 @@ class PublicController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return back()->with('success', 'Comment added!');
+        return redirect()->back();
     }
+
     public function category(Category $category)
     {
         $posts = $category->posts()
-            ->with(['user', 'category', 'tags', 'image'])
+            ->with(['user', 'category', 'tags', 'images'])
             ->withCount('comments', 'likes')
             ->latest()
             ->simplePaginate(16);
 
         return view('welcome', compact('posts'));
     }
+
     public function user(User $user)
     {
         $posts = $user->posts()
-            ->with(['user', 'category', 'tags', 'image'])
+            ->with(['user', 'category', 'tags', 'images'])
             ->withCount('comments', 'likes')
             ->latest()
             ->simplePaginate(16);
+
         return view('user', compact('posts', 'user'));
     }
 
     public function follow(User $user)
     {
-        if ($user->id === Auth::user()->id)
-            return redirect()->back();
+        if($user->id === Auth::user()->id) return redirect()->back();
         $isFollower = $user->followers()->where('follower_id', Auth::user()->id)->exists();
-        if ($isFollower) {
+        if($isFollower) {
             $user->followers()->detach(Auth::user());
         } else {
             $user->followers()->attach(Auth::user());
         }
         return redirect()->back();
     }
-
 }
