@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+        });
+        
+        Schema::create('follows', function (Blueprint $table) {
+            $table->foreignIdFor(User::class, 'follower_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'followee_id')->constrained()->cascadeOnDelete();
+            $table->unique(['follower_id', 'followee_id']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

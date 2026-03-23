@@ -20,10 +20,10 @@ class LikeSeeder extends Seeder
         foreach($posts as $post) {
             $randUsers = $users->random(rand(0, $users->count()));
             foreach($randUsers as $user) {
-                $like = new Like();
-                $like->user()->associate($user);
-                $like->post()->associate($post);
-                $like->save();
+                Like::firstOrCreate([
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
+                ]);
             }
         }
     }

@@ -1,8 +1,7 @@
 <div class="card bg-base-300 shadow-sm">
     {{-- <figure>
-            <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes" />
-        </figure> --}}
+        <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp" alt="Shoes" />
+    </figure> --}}
     <div class="card-body">
         <h2 class="card-title">{{ $post->title }}</h2>
         @isset($full)
@@ -10,14 +9,18 @@
         @else
             <p>{{ $post->snippet }}</p>
         @endisset
-        <p class="text-base-content/50">{{ $post->user->name }}</p>
+        <p class="text-base-content/50"><a href="{{route('user', $post->user)}}">{{ $post->user->name }}</a></p>
         <p class="text-base-content/50">{{ $post->created_at->diffForHumans() }}</p>
         <p class="text-base-content/50"><b>Comments: </b>{{ $post->comments_count }}</p>
         <p class="text-base-content/50"><b>Likes: </b>{{ $post->likes_count }}</p>
         <p>
-            <a href="{{ route('category', ['category' => $post->category]) }}">
-                <div class="badge badge-secondary">{{ $post->category->name }}</div>
-            </a>
+            @if ($post->category)
+                <a href="{{ route('category', ['category' => $post->category]) }}">
+                    <div class="badge badge-secondary">{{ $post->category->name }}</div>
+                </a>
+            @else
+                <div class="badge badge-ghost">Uncategorized</div>
+            @endif
         </p>
         <div class="flex flex-row flex-wrap gap-1">
             @foreach($post->tags as $tag)

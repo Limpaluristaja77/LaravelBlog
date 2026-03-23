@@ -14,11 +14,22 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        $tags = Tag::factory(10)->create();
+        $tags = collect();
+
+        while ($tags->count() < 10) {
+            $tag = Tag::firstOrCreate([
+                'name' => fake()->word(),
+            ]);
+
+            if (! $tags->contains('id', $tag->id)) {
+                $tags->push($tag);
+            }
+        }
+
         $posts = Post::all();
         foreach($posts as $post) {
             $randTags = $tags->random(rand(0,5));
-            $post->tags()->attach($randTags);
+            $post->tags()->syncWithoutDetaching(collect($randTags)->pluck('id'));
         }
     }
 }
